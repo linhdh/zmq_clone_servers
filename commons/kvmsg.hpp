@@ -14,7 +14,7 @@
 #include <zmqpp/zmqpp.hpp>
 #include <iostream>
 #include <sstream>
-#include <stdarg.h>
+#include <cstdarg>
 
 using ustring = std::basic_string<unsigned char>;
 
