@@ -6,14 +6,30 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(clonecli1
         clonepattern1/clonecli1.cpp
         clonepattern1/clonecli1.h
-        clonepattern1/kvsimple.hpp
-        clonepattern1/kvsimple.cpp
-        clonepattern1/zhelpers.hpp)
+        commons/kvsimple.hpp
+        commons/kvsimple.cpp
+        commons/zhelpers.hpp
+        clonepattern2/clonesrv2.cpp
+        clonepattern2/clonesrv2.h)
 target_link_libraries(clonecli1 zmq)
 
 add_executable(clonesrv1
         clonepattern1/clonesrv1.cpp
         clonepattern1/clonesrv1.h
-        clonepattern1/kvsimple.hpp
-        clonepattern1/kvsimple.cpp)
+        commons/kvsimple.hpp
+        commons/kvsimple.cpp)
 target_link_libraries(clonesrv1 zmq)
+
+add_executable(clonesrv2
+        clonepattern2/clonesrv2.cpp
+        clonepattern2/clonesrv2.h
+        commons/kvsimple.hpp
+        commons/kvsimple.cpp)
+target_link_libraries(clonesrv2 zmq)
+
+add_executable(clonecli2
+        clonepattern2/clonecli2.cpp
+        clonepattern2/clonecli2.h
+        commons/kvsimple.hpp
+        commons/kvsimple.cpp)
+target_link_libraries(clonecli2 zmq)
