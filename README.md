@@ -85,4 +85,30 @@ Here are some things to note about these two programs (clonesrv2, clonecli2):
 
 Right now, these two programs don’t do anything real, but they correctly synchronize state. It’s a neat example of how to mix different patterns: PAIR-PAIR, PUB-SUB, and ROUTER-DEALER.
 
+## Republishing Updates from Clients
+
+In our second model, changes to the key-value store came from the server itself. This is a centralized model that is useful, for example if we have a central configuration file we want to distribute, with local caching on each node. A more interesting model takes updates from clients, not the server. The server thus becomes a stateless broker. This gives us some benefits:
+
+- We’re less worried about the reliability of the server. If it crashes, we can start a new instance and feed it new values.
+
+- We can use the key-value store to share knowledge between active peers.
+
+To send updates from clients back to the server, we could use a variety of socket patterns. The simplest plausible solution is a PUSH-PULL combination.
+
+Why don’t we allow clients to publish updates directly to each other? While this would reduce latency, it would remove the guarantee of consistency. You can’t get consistent shared state if you allow the order of updates to change depending on who receives them. Say we have two clients, changing different keys. This will work fine. But if the two clients try to change the same key at roughly the same time, they’ll end up with different notions of its value.
+
+There are a few strategies for obtaining consistency when changes happen in multiple places at once. We’ll use the approach of centralizing all change. No matter the precise timing of the changes that clients make, they are all pushed through the server, which enforces a single sequence according to the order in which it gets updates.
+
+![Republishing Updates](/images/fig60.png)
+
+By mediating all changes, the server can also add a unique sequence number to all updates. With unique sequencing, clients can detect the nastier failures, including network congestion and queue overflow. If a client discovers that its incoming message stream has a hole, it can take action. It seems sensible that the client contact the server and ask for the missing messages, but in practice that isn’t useful. If there are holes, they’re caused by network stress, and adding more stress to the network will make things worse. All the client can do is warn its users that it is “unable to continue”, stop, and not restart until someone has manually checked the cause of the problem.
+
+We’ll now generate state updates in the client.
+
+- The server has collapsed to a single task. It manages a PULL socket for incoming updates, a ROUTER socket for state requests, and a PUB socket for outgoing updates.
+
+- The client uses a simple tickless timer to send a random update to the server once a second. In a real implementation, we would drive updates from application code.
+
+
+
 
