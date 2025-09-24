@@ -33,3 +33,16 @@ add_executable(clonecli2
         commons/kvsimple.hpp
         commons/kvsimple.cpp)
 target_link_libraries(clonecli2 zmq)
+
+add_executable(clonesrv3 clonepattern3/clonesrv3.cpp
+        clonepattern3/clonesrv3.h
+        commons/kvsimple.hpp
+        commons/kvsimple.cpp)
+target_link_libraries(clonesrv3 zmq)
+
+add_executable(clonecli3
+        clonepattern3/clonecli3.cpp
+        clonepattern3/clonecli3.h
+        commons/kvsimple.hpp
+        commons/kvsimple.cpp)
+target_link_libraries(clonecli3 zmq)
