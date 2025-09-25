@@ -74,3 +74,17 @@ add_executable(clonecli5
         commons/kvmsg.hpp
         commons/kvmsg.cpp)
 target_link_libraries(clonecli5 zmq zmqpp)
+
+add_executable(clonesrv6 clonepattern6/clonesrv6.cpp clonepattern6/clonesrv6.h
+        commons/bstar.cpp
+        commons/bstar.hpp
+        commons/kvmsg.hpp
+        commons/kvmsg.cpp)
+target_link_libraries(clonesrv6 zmq zmqpp)
+
+add_executable(clonecli6 clonepattern6/clonecli6.cpp clonepattern6/clonecli6.h
+        commons/clone.cpp
+        commons/clone.hpp
+        commons/kvmsg.hpp
+        commons/kvmsg.cpp)
+target_link_libraries(clonecli6 zmq zmqpp)
